@@ -41,8 +41,6 @@ printBoard([Line|Lines], N) :-
     N1 is N - 1,
     printSep(N),
     printLine(Line),
-    write('|'),
-    write(' '),
     printBoard(Lines, N1).
 
 printBoards([]).

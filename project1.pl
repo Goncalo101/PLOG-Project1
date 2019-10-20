@@ -20,7 +20,9 @@ translate(2, 'O').
 
 printCell(C) :-
     translate(C,P),
-    write(P).
+    write(' '),
+    write(P),
+    write(' ').
 
 printLine([]) :-
     write(' | ').
@@ -45,15 +47,17 @@ printBoard([Line|Lines], N) :-
 
 printBoards([]).
 printBoards([Tab|Tabs]) :-
+    write('|              |              |  |              |              |'), nl,
     write('| '),
     printBoard(Tab, 4),
     nl,
+    write('|              |              |  |              |              |'), nl,
     printBoards(Tabs).
 
 display_game(Board, Player) :-
-    write(' ------ ------    ------ ------ '), nl,
+    write(' -------------- --------------    -------------- -------------- '), nl,
     printBoards(Board),
-    write(' ------ ------    ------ ------ ').
+    write(' -------------- --------------    -------------- -------------- ').
 
 /*
 translate(1, 'X').

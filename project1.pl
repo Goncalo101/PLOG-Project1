@@ -8,10 +8,10 @@
 start:- initBoard(T), transpose(T, Board), display_game(Board, _).
 
 initBoard(T) :-
-    append([[[[2,2,2,2], [0,0,0,0], [0,0,0,0], [1,1,1,1]],
-            [[2,2,2,2], [0,0,0,0], [0,0,0,0], [1,1,1,1]],
-            [[2,2,2,2], [0,0,0,0], [0,0,0,0], [1,1,1,1]],
-            [[2,2,2,2], [0,0,0,0], [0,0,0,0], [1,1,1,1]]]], T).
+    append([[[[0,1,0,1], [0,0,0,2], [0,0,0,0], [2,2,0,2]],
+            [[1,0,0,0], [0,0,0,0], [0,1,0,2], [2,0,0,0]],
+            [[0,0,1,0], [0,0,0,1], [0,0,0,0], [1,0,2,0]],
+            [[0,0,0,0], [0,0,0,0], [0,0,0,0], [0,2,0,0]]]], T).
 
 translate(0, ' ').
 translate(1, 'X').
@@ -30,7 +30,7 @@ printLine([C|L]):-
 
 printSep(0).
 printSep(1).
-printSep(2) :- write(' '), write(' ').
+printSep(2) :- write(' '), write('|'), write(' ').
 printSep(3).
 printSep(4).
 
@@ -40,6 +40,7 @@ printBoard([Line|Lines], N) :-
     N1 is N - 1,
     printSep(N),
     printLine(Line),
+    write('|'),
     printBoard(Lines, N1).
 
 printBoards([], 0).

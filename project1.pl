@@ -7,13 +7,16 @@
 
 start:- initBoard(T), printBoard(T).
 
-initBoard(T) :- 
-    append([2,2,2,2], T),
-    append([0,0,0,0], T),
-    append([0,0,0,0], T),
-    append([1,1,1,1], T).
+initBoard(T) :-
+    append([[
+        [[2,2,2,2], [0,0,0,0], [0,0,0,0], [1,1,1,1]],
+        [[2,2,2,2], [0,0,0,0], [0,0,0,0], [1,1,1,1]],
+        [[2,2,2,2], [0,0,0,0], [0,0,0,0], [1,1,1,1]],
+        [[2,2,2,2], [0,0,0,0], [0,0,0,0], [1,1,1,1]]]], T).
+    /*append([[[2,2,2,2]], [[0,0,0,0]], [[0,0,0,0]], [[1,1,1,1]]], T).*/
     
 
+/*
 translate(1, 'X').
 
 printCell(C) :-
@@ -29,6 +32,7 @@ printBoard([]).
 printBoard([L|T]) :-
     printLine(L),
     printBoard(T).
+    */
 
 /* nivel 1 da ia (exemplo) 
 findall(X-Y, validMove(Tab, X,Y, NTab), L). */

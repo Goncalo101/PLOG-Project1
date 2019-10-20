@@ -22,7 +22,7 @@ printCell(C) :-
     write(P).
 
 printLine([]) :-
-    write(' ').
+    write(' | ').
 
 printLine([C|L]):-
     printCell(C),
@@ -30,7 +30,7 @@ printLine([C|L]):-
 
 printSep(0).
 printSep(1).
-printSep(2) :- write(' '), write(' ').
+printSep(2) :- write(' '), write('|'), write(' ').
 printSep(3).
 printSep(4).
 
@@ -42,28 +42,27 @@ printBoard([Line|Lines], N) :-
     printLine(Line),
     printBoard(Lines, N1).
 
-printBoards([], 0).
+printBoards([]).
 printBoards([Tab|Tabs]) :-
+    write('| '),
     printBoard(Tab, 4),
     nl,
     printBoards(Tabs).
 
 display_game(Board, Player) :-
-    printBoards(Board).
-
+    write(' ------ ------    ------ ------ '), nl,
+    printBoards(Board),
+    write(' ------ ------    ------ ------ ').
 
 /*
 translate(1, 'X').
-
 printCell(C) :-
     translate(C,P),
     write(P).
-
 printLine([]).
 printLine([C|L]):-
     printCell(C),
     printLine(L).
-
 printBoard([]).
 printBoard([L|T]) :-
     printLine(L),

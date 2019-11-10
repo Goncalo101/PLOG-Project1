@@ -1,0 +1,15 @@
+--- DO NOT SUBMIT ---
+This file includes notes about the internal ai and important functions for the project 
+
+-> usar nl para newline e predicados psep e pvsep para separador (definidos por nos)
+-> §10.22 in sisctus prolog docs: https://sicstus.sics.se/sicstus/docs/latest4/html/sicstus.html/lib_002dlists.html#lib_002dlists
+-> ver nth0, maplist, remove_dups, sumlist, findall, bagof, setof
+
+-> incluir ficheiros de codigo escrito por nos (nao bibliotecas)
+:- include('file.pl')
+
+-> nivel 1 da ia (exemplo) 
+findall(X-Y, validMove(Tab, X,Y, NTab), L).
+
+-> nivel 2 da ia (exemplo)
+setof(V-X-Y, (validMove(Tab, X,Y, NTab), eval(NTab, V)), [Play|_]).

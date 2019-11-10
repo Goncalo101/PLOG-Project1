@@ -26,6 +26,9 @@ printPlayer(N) :-
 printSep(2) :- vsep.
 printSep(_).
 
+printHSep(4).
+printHSep(_) :- hsep.
+
 /* translation for values in the internal data structure which will be displayed in displayGame */
 translate(0, ' ').
 translate(1, 'X').

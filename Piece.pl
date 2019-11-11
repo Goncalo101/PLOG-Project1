@@ -1,4 +1,4 @@
-getBoardNumber:-
+getBoardNumber(Board):-
     write('Board: '),
     get_code(Bd),
     read_line(_),
@@ -6,28 +6,37 @@ getBoardNumber:-
     Board > 0,
     Board < 5.
 
-getOriginLine:-
+getOriginLine(OLine):-
     write('Line: '), 
-    get_code(Li),
+    get_code(OLi),
     read_line(_),
-    Line is Li-48.
+    OLine is OLi-48,
+    OLine > 0,
+    OLine < 5.
 
-getOriginColumn:-
+getOriginColumn(OColumn):-
     write('Column: '), 
-    get_char(Co),
+    get_char(OCo),
     read_line(_),
-    char_code(Co, Code),
-    Column is Code-96.
+    char_code(OCo, OCode),
+    OColumn is OCode-96,
+    OColumn > 0,
+    OColumn < 5.
 
-getDestinyLine:-
+getDestinyLine(DLine):-
     write('Line: '), 
-    get_code(Li2),
+    get_code(DLi),
     read_line(_),
-    Line2 is Li2-48.
+    DLine is DLi-48,
+    DLine > 0,
+    DLine < 5.
 
-getDestinyColumn:-
+getDestinyColumn(DColumn):-
     write('Column: '), 
-    get_char(Co2),
+    get_char(DCo),
     read_line(_),
-    char_code(Co2, Code2),
-    Column2 is Code2-96.
+    char_code(DCo, DCode),
+    DColumn is DCode-96,
+    DColumn > 0,
+    DColumn < 5.
+

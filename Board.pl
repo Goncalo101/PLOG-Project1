@@ -1,4 +1,5 @@
 :- use_module(library(lists)).
+:- include('Piece.pl').
 
 start:- initBoard(Board), displayGame(Board).
 vsep :- write('|').
@@ -105,18 +106,3 @@ printBoards([Top|Bottom], N) :-
 displayGame(Board) :-
     printBoards(Board, 1).
 
-
-/* Create a Move*/
-play:-
-    start,
-    write('Player with X starts!'), nl,
-    write('Passive move'), nl,
-    write(''),
-    write('Board: '),
-    get_code(Bd),
-    Board is Bd-48,
-    write('Piece: '), 
-    get_code(Pc),
-    Piece is Pc-48,
-    write('Done!'),
-    nl.

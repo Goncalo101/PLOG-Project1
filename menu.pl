@@ -1,4 +1,4 @@
-:- include('Game.pl').
+:- include('game.pl').
 
 initialMenu:-
     clearConsole,

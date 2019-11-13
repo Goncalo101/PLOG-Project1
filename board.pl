@@ -1,5 +1,5 @@
 :- use_module(library(lists)).
-:- include('Piece.pl').
+:- include('piece.pl').
 
 start(Board):- initBoard(Board), displayGame(Board).
 vsep :- write('|').

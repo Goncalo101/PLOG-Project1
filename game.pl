@@ -1,4 +1,4 @@
-:- include('Board.pl').
+:- include('board.pl').
 
 /* Create a Move*/
 play:-

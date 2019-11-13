@@ -97,11 +97,11 @@ printBoards([Top|Bottom], N) :-
     N1 is N + 1, nl, 
     printPlayer(N),
     printBoardNumber(N),
+    printColumnLetter, nl,
     hsep,
     transpose(Top, Transposed),
     printTransposed(Transposed, 4, 0),
     hsep, 
-    printColumnLetter, nl,
     printBoards(Bottom, N1).
 
 /* print the 4 boards as a 2x2 matrix */

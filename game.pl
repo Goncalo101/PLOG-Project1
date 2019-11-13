@@ -1,4 +1,5 @@
 :- include('board.pl').
+:- include('menu.pl').
 
 /* Create a Move*/
 play:-
@@ -16,3 +17,6 @@ play:-
     setPiece(0, BoardNo, Board2, OLine, OColumn, FollowingBoard),
     displayGame(FollowingBoard),
     write('Done!').
+
+start :-
+    initialMenuHandler.

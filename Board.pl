@@ -1,7 +1,7 @@
 :- use_module(library(lists)).
 :- include('Piece.pl').
 
-start:- initBoard(Board), displayGame(Board).
+start(Board):- initBoard(Board), displayGame(Board).
 vsep :- write('|').
 hsep :- write('+---+---+---+---+  +---+---+---+---+'), nl.
 
@@ -106,3 +106,37 @@ printBoards([Top|Bottom], N) :-
 displayGame(Board) :-
     printBoards(Board, 1).
 
+/*Set New Coordinates of a Piece*/
+setPiece(Piece, BoardNo, PrevBoard, NewRow, NewCol, NextBoard):-
+    setBranch(Piece, BoardNo, PrevBoard, NewRow, NewCol, NextBoard).
+
+setBranch(Piece, BoardNo, [Head|Tail], NewRow, NewCol, [Head|NewTail]):-
+    BoardNo > 2,
+    BoardNo < 5,
+    BoardNum is BoardNo-2,
+    setBoard(Piece, BoardNum, Tail, NewRow, NewCol, NewTail).
+
+setBranch(Piece, BoardNo, [Head|Tail], NewRow, NewCol, [NewHead|Tail]):-
+    BoardNo > 0,
+    BoardNo < 3,
+    setBoard(Piece, BoardNo, Head, NewRow, NewCol, NewHead).
+
+setBoard(Piece, 1, [Head|Tail], NewRow, NewCol, [NewBoard|Tail]):-
+    setRow(Piece, Head, NewRow, NewCol, NewBoard).
+
+setBoard(Piece, BoardNo, [Head|Tail], NewRow, NewCol, [Board|NewTail]):-
+    BoardNumber is BoardNo-1,
+    setBoard(Piece, BoardNumber, Tail, NewRow, NewCol, NewTail).
+
+setRow(Piece, [Head|Tail], 1, Col, [NewRow|Tail]):-
+    setCol(Piece, Head, Col, NewRow).
+
+setRow(Piece, [Line|Tail], Row, Col, [Line|NewTail]):-
+    NewRow is Row-1,
+    setRow(Piece, Tail, NewRow, Col, NewTail).
+
+setCol(Piece, [_|Tail], 1, [Piece|Tail]).
+
+setCol(Piece, [Cell|Tail], Col, [Cell|NewTail]):-
+    Column is Col-1,
+    setCol(Piece, Tail, Column, NewTail).

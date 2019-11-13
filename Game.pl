@@ -2,16 +2,17 @@
 
 /* Create a Move*/
 play:-
-    start,
+    start(Board),
     write('Player with X starts!'), nl,
     write('Passive move'), nl,
-    getBoardNumber(Board),
+    getBoardNumber(BoardNo),
     write('Origin coordinates'), nl,
     getOriginLine(OLine),
     getOriginColumn(OColumn), nl,
     write('Destiny coordinates'), nl,
     getDestinyLine(DLine),
     getDestinyColumn(DColumn),
-    Aux is DLine - OLine,
-    write(Aux), nl,
-    write('Done!'), nl.
+    setPiece(1, BoardNo, Board, DLine, DColumn, NextBoard),
+    setPiece(0, BoardNo, NextBoard, OLine, OColumn, FollowingBoard),
+    displayGame(FollowingBoard),
+    write('Done!').

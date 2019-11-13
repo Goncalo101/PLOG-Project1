@@ -1,10 +1,10 @@
-getBoardNumber(Board):-
+getBoardNumber(BoardNo):-
     write('Board: '),
     get_code(Bd),
     read_line(_),
-    Board is Bd-48,
-    Board > 0,
-    Board < 5.
+    BoardNo is Bd-48,
+    BoardNo > 0,
+    BoardNo < 5.
 
 getOriginLine(OLine):-
     write('Line: '), 

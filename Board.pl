@@ -117,17 +117,12 @@ setPiece(Piece, BoardNo, PrevBoard, NewRow, NewCol, NextBoard):-
 setBranch(Piece, BoardNo, [Head|[Head2|Tail]], NewRow, NewCol, [Head|[NewHead2|Tail]]):-
     BoardNo > 2,
     BoardNo < 5,
-    /*write(Head), nl,
-    write(Head2), nl,
-    write(Tail), nl,*/
     BoardNum is BoardNo-2,
     setBoard(Piece, BoardNum, Head2, NewRow, NewCol, NewHead2).
 
 setBranch(Piece, BoardNo, [Head|Tail], NewRow, NewCol, [NewHead|Tail]):-
     BoardNo > 0,
     BoardNo < 3,
-    /*write(Head), nl,
-    write(Tail), nl,*/
     setBoard(Piece, BoardNo, Head, NewRow, NewCol, NewHead).
 
 setBoard(Piece, 1, [Head|Tail], NewRow, NewCol, [NewBoard|Tail]):-

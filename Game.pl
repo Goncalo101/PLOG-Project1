@@ -12,7 +12,7 @@ play:-
     write('Destiny coordinates'), nl,
     getDestinyLine(DLine),
     getDestinyColumn(DColumn),
-    setPiece(1, BoardNo, Board, DLine, DColumn, NextBoard),
-    setPiece(0, BoardNo, NextBoard, OLine, OColumn, FollowingBoard),
+    setPiece(1, BoardNo, Board, DLine, DColumn, Board2),
+    setPiece(0, BoardNo, Board2, OLine, OColumn, FollowingBoard),
     displayGame(FollowingBoard),
     write('Done!').

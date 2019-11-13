@@ -68,6 +68,7 @@ printLine([C|L]):-
 
 /* print a line to the screen, this line contains the Nth line of the top or bottom boards */ 
 printBoardLine([], 0, K) :- nl.
+
 printBoardLine([Line|Lines], N, K) :-
     N > 0,
     N1 is N - 1,
@@ -79,6 +80,7 @@ printBoardLine([Line|Lines], N, K) :-
 
 /* print boards after transposing */
 printTransposed([], 0, K).
+
 printTransposed([Current|Next], N, K) :-
     N > 0,
     N1 is N - 1,
@@ -106,25 +108,32 @@ printBoards([Top|Bottom], N) :-
 displayGame(Board) :-
     printBoards(Board, 1).
 
+/*Functions to move a piece from oldPlace to newPlace*/
 /*Set New Coordinates of a Piece*/
 setPiece(Piece, BoardNo, PrevBoard, NewRow, NewCol, NextBoard):-
     setBranch(Piece, BoardNo, PrevBoard, NewRow, NewCol, NextBoard).
 
-setBranch(Piece, BoardNo, [Head|Tail], NewRow, NewCol, [Head|NewTail]):-
+/*Choosing the branch of matrices to use*/
+setBranch(Piece, BoardNo, [Head|[Head2|Tail]], NewRow, NewCol, [Head|[NewHead2|Tail]]):-
     BoardNo > 2,
     BoardNo < 5,
+    /*write(Head), nl,
+    write(Head2), nl,
+    write(Tail), nl,*/
     BoardNum is BoardNo-2,
-    setBoard(Piece, BoardNum, Tail, NewRow, NewCol, NewTail).
+    setBoard(Piece, BoardNum, Head2, NewRow, NewCol, NewHead2).
 
 setBranch(Piece, BoardNo, [Head|Tail], NewRow, NewCol, [NewHead|Tail]):-
     BoardNo > 0,
     BoardNo < 3,
+    /*write(Head), nl,
+    write(Tail), nl,*/
     setBoard(Piece, BoardNo, Head, NewRow, NewCol, NewHead).
 
 setBoard(Piece, 1, [Head|Tail], NewRow, NewCol, [NewBoard|Tail]):-
     setRow(Piece, Head, NewRow, NewCol, NewBoard).
 
-setBoard(Piece, BoardNo, [Head|Tail], NewRow, NewCol, [Board|NewTail]):-
+setBoard(Piece, BoardNo, [Head|Tail], NewRow, NewCol, [Head|NewTail]):-
     BoardNumber is BoardNo-1,
     setBoard(Piece, BoardNumber, Tail, NewRow, NewCol, NewTail).
 

@@ -58,7 +58,7 @@ setMenuState(10) :-
 
 /* setGameState receives the ascii character of the input key */
 setGameState(49) :-
-    play.
+    start.
 
 setGameState(50) :-
     rules.    

@@ -23,7 +23,7 @@ getOriginColumn(OColumn):-
     OColumn > 0,
     OColumn < 5.
 
-getDestinyLine(DLine):-
+getDestinationLine(DLine):-
     write('Line: '), 
     get_code(DLi),
     read_line(_),
@@ -31,7 +31,7 @@ getDestinyLine(DLine):-
     DLine > 0,
     DLine < 5.
 
-getDestinyColumn(DColumn):-
+getDestinationColumn(DColumn):-
     write('Column: '), 
     get_char(DCo),
     read_line(_),

@@ -6,7 +6,7 @@ play:-
 
 /* Create a Move*/
 start :-
-    start(Board),
+    start(Board, 1),
     initialInfo,
     passiveMove(1, Board),
     write('Done!').
@@ -16,6 +16,10 @@ initialInfo:-
     write('Player 2 is the O'), nl, nl,
     write('Player with X starts!'), nl, nl.
 
+move(Move, Board, NewBoard) :-
+    passiveMove(Player, Board),
+    agressiveMove(Player, Board, PrevBoardNo, DeltaLine, DeltaColumn).
+
 passiveMove(Player, Board):-
     write('Passive move'), nl,
     getBoardNumber(BoardNo),
@@ -23,11 +27,11 @@ passiveMove(Player, Board):-
     getDestinationCoordinates(DLine, DColumn),
     setPiece(Player, BoardNo, Board, DLine, DColumn, Board2),
     setPiece(0, BoardNo, Board2, OLine, OColumn, FollowingBoard),
-    displayGame(FollowingBoard), nl,
+    displayGame(FollowingBoard, Player), nl,
     agressivePlayTactic(OLine, OColumn, DLine, DColumn, LineDif, ColDif), nl,
     agressiveMove(Player, FollowingBoard, BoardNo, LineDif, ColDif).
 
-agressiveMove(Player, Board, PrevBoardNo, DeltaLine, DeltaColumn):-
+agressiveMove(Player, Board, PrevBoardNo, DeltaLine, DeltaColumn) :-
     write('Agressive move'), nl,
     getBoardNumber(NewBoardNo),
     /* Using not because the function dont return after insert a correct board*/
@@ -37,15 +41,12 @@ agressiveMove(Player, Board, PrevBoardNo, DeltaLine, DeltaColumn):-
     DColumn is OColumn + DeltaColumn,
     setPiece(Player, NewBoardNo, Board, DLine, DColumn, Board2),
     setPiece(0, NewBoardNo, Board2, OLine, OColumn, FollowingBoard),
-    displayGame(FollowingBoard), nl,
+    displayGame(FollowingBoard, Player), nl,
     write('Press any key to pass the turn'),
     getAnyKey(Key),
     changePlayer(Player, NewPlayer),
     clearConsole,
-    displayGame(FollowingBoard), nl,
-    write('Player '),
-    write(NewPlayer),
-    write(' turn.'), nl,
+    displayGame(FollowingBoard, NewPlayer), nl,
     passiveMove(NewPlayer, FollowingBoard).
 
 agressivePlayTactic(OLine, OColumn, DLine, DColumn, LineDif, ColDif):-

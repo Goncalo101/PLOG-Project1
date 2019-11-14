@@ -22,7 +22,6 @@ startMenu:-
     write(' _____________________________________________________ '),nl,
     write('|                                           PLOG 2019 |'),nl,
     write('|                                                     |'),nl,
-    write('|                                                     |'),nl,          
     write('|    (1) Play                                         |'),nl,       
     write('|                                                     |'),nl,   
     write('|    (2) Rules and Information                        |'),nl,    

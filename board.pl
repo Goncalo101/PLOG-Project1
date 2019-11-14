@@ -1,7 +1,7 @@
 :- use_module(library(lists)).
 :- include('piece.pl').
 
-start(Board):- initBoard(Board), displayGame(Board).
+start(Board, Player):- initBoard(Board), displayGame(Board, Player).
 vsep :- write('|').
 hsep :- write('+---+---+---+---+  +---+---+---+---+'), nl.
 
@@ -105,8 +105,11 @@ printBoards([Top|Bottom], N) :-
     printBoards(Bottom, N1).
 
 /* print the 4 boards as a 2x2 matrix */
-displayGame(Board) :-
-    printBoards(Board, 1).
+displayGame(Board, Player) :-
+    printBoards(Board, 1),
+    write('Player '),
+    write(Player),
+    write(' turn.'), nl.
 
 /*Functions to move a piece from oldPlace to newPlace*/
 /*Set New Coordinates of a Piece*/

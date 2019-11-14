@@ -18,7 +18,7 @@ initialInfo:-
 
 move(Move, Board, NewBoard) :-
     passiveMove(Player, Board),
-    agressiveMove(Player, Board, PrevBoardNo, DeltaLine, DeltaColumn).
+    aggressiveMove(Player, Board, PrevBoardNo, DeltaLine, DeltaColumn).
 
 passiveMove(Player, Board):-
     write('Passive move'), nl,
@@ -28,14 +28,13 @@ passiveMove(Player, Board):-
     setPiece(Player, BoardNo, Board, DLine, DColumn, Board2),
     setPiece(0, BoardNo, Board2, OLine, OColumn, FollowingBoard),
     displayGame(FollowingBoard, Player), nl,
-    agressivePlayTactic(OLine, OColumn, DLine, DColumn, LineDif, ColDif), nl,
-    agressiveMove(Player, FollowingBoard, BoardNo, LineDif, ColDif).
+    aggressivePlayTactic(OLine, OColumn, DLine, DColumn, LineDif, ColDif), nl,
+    aggressiveMove(Player, FollowingBoard, BoardNo, LineDif, ColDif).
 
-agressiveMove(Player, Board, PrevBoardNo, DeltaLine, DeltaColumn) :-
-    write('Agressive move'), nl,
-    getBoardNumber(NewBoardNo),
+aggressiveMove(Player, Board, PrevBoardNo, DeltaLine, DeltaColumn) :-
+    write('aggressive move'), nl,
     /* Using not because the function dont return after insert a correct board*/
-    not(agressiveBoardPossibilities(PrevBoardNo, NewBoardNo)),
+    aggressiveBoardPossibility(PrevBoardNo, NewBoardNo),
     getOriginCoordinates(OLine, OColumn), nl,
     DLine is OLine + DeltaLine,
     DColumn is OColumn + DeltaColumn,
@@ -49,38 +48,31 @@ agressiveMove(Player, Board, PrevBoardNo, DeltaLine, DeltaColumn) :-
     displayGame(FollowingBoard, NewPlayer), nl,
     passiveMove(NewPlayer, FollowingBoard).
 
-agressivePlayTactic(OLine, OColumn, DLine, DColumn, LineDif, ColDif):-
+aggressivePlayTactic(OLine, OColumn, DLine, DColumn, LineDif, ColDif):-
     LineDif is DLine-OLine,
     ColDif is DColumn-OColumn.
 
-agressiveBoardPossibilities(PrevNumber, NewBoardNo):-
+aggressiveBoardPossibility(PrevNumber, NewBoardNo) :-
+    repeat, 
+    getBoardNumber(NewBoardNo),
+    \+ aggressiveBoardPossibilities(PrevNumber, NewBoardNo).
+
+aggressiveBoardPossibilities(PrevNumber, NewBoardNo):-
     (PrevNumber is 2;
     PrevNumber is 4),
     (NewBoardNo is 2;
     NewBoardNo is 4),
-    write('The number of the board for the agressive move should be 1 or 3'), nl, nl,
-    getBoardNumber(NewBoardNumber),
-    agressiveBoardPossibilities(PrevNumber, NewBoardNumber).
+    write('The number of the board for the agressive move should be 1 or 3'), nl, nl.
 
-agressiveBoardPossibilities(PrevNumber, NewBoardNo):-
+aggressiveBoardPossibilities(PrevNumber, NewBoardNo):-
     (PrevNumber is 1;
     PrevNumber is 3),
     (NewBoardNo is 1;
     NewBoardNo is 3),
-    write('The number of the board for the agressive move should be 2 or 4'), nl, nl,
-    getBoardNumber(NewBoardNumber),
-    agressiveBoardPossibilities(PrevNumber, NewBoardNumber).
+    write('The number of the board for the agressive move should be 2 or 4'), nl, nl.
 
-not(X):-
-    X, !, fail.
-
-not(X).
-
-changePlayer(2, Player2):-
-    Player2 is 1.
-
-changePlayer(1, Player2):-
-    Player2 is 2.
+changePlayer(2, 1).
+changePlayer(1, 2).
 
 getDestinationCoordinates(DLine, DColumn) :-
     write('Destination coordinates'), nl,

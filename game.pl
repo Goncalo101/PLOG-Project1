@@ -28,8 +28,20 @@ passiveMove(Player, Board):-
     /* repeat until the piece is in a valid position */
     repeat, 
     getDestinationCoordinates(DLine, DColumn),
-    getPiece(BoardNo, Board, Row, Column, Piece),
+    getPiece(BoardNo, Board, DLine, DColumn, Piece),
     check_piece(Player, Piece),
+
+    Piece == -1 -> (
+        (DeltaLine is DLine-OLine,
+        DeltaColumn is DColumn-OColumn,
+        NewLine is OLine+DeltaLine+1,
+        NewColumn is OColumn+DeltaColumn+1,
+        opposite_player(Player, Opposite),
+        getPiece(BoardNo, Board, NewLine, NewColumn, Adj),
+        check_piece(Opposite, Adj),
+        setPiece(Opposite, BoardNo, Board, NewLine, NewColumn, Board2)) ;
+        true
+    ),
 
     setPiece(Player, BoardNo, Board, DLine, DColumn, Board2),
     setPiece(0, BoardNo, Board2, OLine, OColumn, FollowingBoard),
@@ -37,10 +49,18 @@ passiveMove(Player, Board):-
     aggressivePlayTactic(OLine, OColumn, DLine, DColumn, LineDif, ColDif), nl,
     aggressiveMove(Player, FollowingBoard, BoardNo, LineDif, ColDif).
 
+opposite_player(1, 2).
+opposite_player(2, 1).
+
 check_piece(_, 0).
-check_piece(1, 1) :-
+check_piece(Player, Piece) :-
+    Player == Piece,
     write('Illegal move: one of your pieces is already in that position'),
     fail.
+
+check_piece(Player, Piece) :-
+    Piece \= Player,
+    Piece is -1.
 
 aggressiveMove(Player, Board, PrevBoardNo, DeltaLine, DeltaColumn) :-
     write('aggressive move'), nl,

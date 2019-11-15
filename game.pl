@@ -8,7 +8,7 @@ play:-
 start :-
     start(Board, 1),
     initialInfo,
-    passiveMove(1, Board, NextBoard),
+    passiveMove(1, Board),
     write('Done!').
 
 initialInfo:-

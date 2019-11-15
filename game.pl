@@ -4,16 +4,12 @@
 play:-
     initialMenuHandler.
 
-start:-
-    start(Board, 1),
-    gameOver(Board, Winner).
-
-/* Create a Move
+/* Create a Move*/
 start:-
     start(Board, 1),
     initialInfo,
     passiveMove(1, Board),
-    write('Done!').*/
+    write('Done!').
 
 initialInfo:-
     write('Player 1 is the X'), nl,
@@ -44,6 +40,7 @@ aggressiveMove(Player, Board, PrevBoardNo, DeltaLine, DeltaColumn) :-
     setPiece(Player, NewBoardNo, Board, DLine, DColumn, Board2),
     setPiece(0, NewBoardNo, Board2, OLine, OColumn, FollowingBoard),
     displayGame(FollowingBoard, Player), nl,
+    gameOver(FollowingBoard, Winner),
     passingTheTurn(Player, NewPlayer),
     displayGame(FollowingBoard, NewPlayer), nl,
     passiveMove(NewPlayer, FollowingBoard).

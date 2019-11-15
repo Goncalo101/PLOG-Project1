@@ -40,3 +40,13 @@ getDestinationColumn(DColumn):-
     DColumn > 0,
     DColumn < 5.
 
+
+getDestinationCoordinates(DLine, DColumn) :-
+    write('Destination coordinates'), nl,
+    getDestinationLine(DLine),
+    getDestinationColumn(DColumn).
+
+getOriginCoordinates(OLine, OColumn) :-
+    write('Origin coordinates'), nl,
+    getOriginLine(OLine),
+    getOriginColumn(OColumn).

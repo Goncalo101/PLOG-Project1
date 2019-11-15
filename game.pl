@@ -8,7 +8,7 @@ play:-
 start :-
     start(Board, 1),
     initialInfo,
-    passiveMove(1, Board),
+    passiveMove(1, Board, NextBoard),
     write('Done!').
 
 initialInfo:-
@@ -36,15 +36,11 @@ aggressiveMove(Player, Board, PrevBoardNo, DeltaLine, DeltaColumn) :-
     /* Using not because the function dont return after insert a correct board*/
     aggressiveBoardPossibility(PrevBoardNo, NewBoardNo),
     getOriginCoordinates(OLine, OColumn), nl,
-    DLine is OLine + DeltaLine,
-    DColumn is OColumn + DeltaColumn,
+    calculateAgressivePlay(OLine, OColumn, DLine, DColumn, DeltaLine, DeltaColumn),
     setPiece(Player, NewBoardNo, Board, DLine, DColumn, Board2),
     setPiece(0, NewBoardNo, Board2, OLine, OColumn, FollowingBoard),
     displayGame(FollowingBoard, Player), nl,
-    write('Press any key to pass the turn'),
-    getAnyKey(Key),
-    changePlayer(Player, NewPlayer),
-    clearConsole,
+    passingTheTurn(Player, NewPlayer),
     displayGame(FollowingBoard, NewPlayer), nl,
     passiveMove(NewPlayer, FollowingBoard).
 
@@ -71,15 +67,15 @@ aggressiveBoardPossibilities(PrevNumber, NewBoardNo):-
     NewBoardNo is 3),
     write('The number of the board for the agressive move should be 2 or 4'), nl, nl.
 
+calculateAgressivePlay(OLine, OColumn, DLine, DColumn, DeltaLine, DeltaColumn):-
+    DLine is OLine + DeltaLine,
+    DColumn is OColumn + DeltaColumn.
+
+passingTheTurn(Player, NewPlayer):-
+    write('Press any key to pass the turn'),
+    getAnyKey(Key),
+    changePlayer(Player, NewPlayer),
+    clearConsole.
+
 changePlayer(2, 1).
 changePlayer(1, 2).
-
-getDestinationCoordinates(DLine, DColumn) :-
-    write('Destination coordinates'), nl,
-    getDestinationLine(DLine),
-    getDestinationColumn(DColumn).
-
-getOriginCoordinates(OLine, OColumn) :-
-    write('Origin coordinates'), nl,
-    getOriginLine(OLine),
-    getOriginColumn(OColumn).

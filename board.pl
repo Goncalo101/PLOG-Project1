@@ -150,3 +150,32 @@ setCol(Piece, [_|Tail], 1, [Piece|Tail]).
 setCol(Piece, [Cell|Tail], Col, [Cell|NewTail]):-
     Column is Col-1,
     setCol(Piece, Tail, Column, NewTail).
+
+getPiece(BoardNumber, Board, Row, Column, Piece):-
+    getBoard(BoardNumber, Board, SelectedBoard),
+    nth1(Row, SelectedBoard, Line),
+    nth1(Column, Line, Piece),
+    write('Piece: '),
+    write(Piece).
+
+getBoard(BoardNumber, Board, SelectedBoard):-
+    getBranch(BoardNumber, Board, Branch),
+    (BoardNumber is 2;
+    BoardNumber is 4),
+    nth1(2, Branch, SelectedBoard).
+
+getBoard(BoardNumber, Board, SelectedBoard):-
+    getBranch(BoardNumber, Board, Branch),
+    (BoardNumber is 1;
+    BoardNumber is 3),
+    nth1(2, Branch, SelectedBoard).
+
+getBranch(BoardNumber, Board, Branch):-
+    BoardNumber > 0,
+    BoardNumber < 3,
+    nth1(1, Board, Branch).
+
+getBranch(BoardNumber, Board, Branch):-
+    BoardNumber > 2,
+    BoardNumber < 5,
+    nth1(2, Board, Branch).

@@ -1,30 +1,29 @@
 initialMenu:-
     clearConsole,
     write(' _____________________________________________________ '),nl,
-    write('|                                           PLOG 2019 |'),nl,
+    write('|                            2019, PLog Trademark Inc |'),nl,
     write('|                                                     |'),nl,
-    write('|     ______  _             _                         |'),nl,          
-    write('|    |  ____|| |           | |                        |'),nl,       
-    write('|    | |____ | |___  __ __ | |___  _   _              |'),nl,
+    write('|     ______  _             _                         |'),nl,
+    write('|    |  ____|| |           | |                        |'),nl,
+    write('|    | |____ | |___  _____ | |___  _   _              |'),nl,
     write('|    |_____ ||  _  ||  _  ||  _  || | | |             |'),nl,
     write('|     ____| || | | || |_| || |_| || |_| |             |'),nl,
     write('|    |______||_| |_||_____||_____||_____|             |'),nl,
     write('|                                                     |'),nl,
     write('|                                                     |'),nl,
-    write('|              Press return to Continue               |'),nl,
-    write('|                                                     |'),nl,
-    write('|    Made by:                 Goncalo Oliveira        |'),nl,
-    write('|                             Miguel Simoes           |'),nl,
+    write('|              Press Any Key to Continue              |'),nl,
     write('|_____________________________________________________|'),nl,nl.
 
 startMenu:-
     clearConsole,
     write(' _____________________________________________________ '),nl,
-    write('|                                           PLOG 2019 |'),nl,
+    write('|                            2019, PLog Trademark Inc |'),nl,
     write('|                                                     |'),nl,
-    write('|    (1) Play                                         |'),nl,       
-    write('|                                                     |'),nl,   
-    write('|    (2) Rules and Information                        |'),nl,    
+    write('|                        MENU                         |'),nl,
+    write('|                                                     |'),nl,
+    write('|    (1) Play                                         |'),nl,
+    write('|                                                     |'),nl,
+    write('|    (2) Rules and Information                        |'),nl,
     write('|                                                     |'),nl,
     write('|    (3) Credits                                      |'),nl,
     write('|                                                     |'),nl,
@@ -33,10 +32,10 @@ startMenu:-
 
                                  
 getAnyKey(Key):-
-    get_code(Key).
+    get_code(Key), nl.
 
 clearConsole:-
-    write('\e[H\e[2J').
+    write('\e[H\e[2J'), nl.
 
 rules :-
     clearConsole,
@@ -55,7 +54,7 @@ credits :-
 setMenuState(10) :-
     startMenuHandler.
 
-/* setGameState receives the ascii character of the input key */
+/* setGameState receives the ascii character of the input key*/
 setGameState(49) :-
     start.
 

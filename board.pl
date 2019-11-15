@@ -158,10 +158,16 @@ player_piece(0,0).
 player_piece(0,1).
 player_piece(0,2).
 
+/*Get the piece from a certain cell to check valid moves*/
 getPiece(BoardNumber, Board, Row, Column, Piece):-
+    BoardNumber > 0,
+    BoardNumber < 5,
     getBoard(BoardNumber, Board, SelectedBoard),
     nth1(Row, SelectedBoard, Line),
     nth1(Column, Line, Piece).
+    nth1(Column, Line, Piece),
+    write('Piece: '),
+    write(Piece), nl.
 
 getBoard(BoardNumber, Board, SelectedBoard):-
     getBranch(BoardNumber, Board, Branch),
@@ -173,7 +179,7 @@ getBoard(BoardNumber, Board, SelectedBoard):-
     getBranch(BoardNumber, Board, Branch),
     (BoardNumber is 1;
     BoardNumber is 3),
-    nth1(2, Branch, SelectedBoard).
+    nth1(1, Branch, SelectedBoard).
 
 getBranch(BoardNumber, Board, Branch):-
     BoardNumber > 0,

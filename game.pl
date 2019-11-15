@@ -4,12 +4,16 @@
 play:-
     initialMenuHandler.
 
-/* Create a Move*/
-start :-
+start:-
+    start(Board, 1),
+    gameOver(Board, Winner).
+
+/* Create a Move
+start:-
     start(Board, 1),
     initialInfo,
     passiveMove(1, Board),
-    write('Done!').
+    write('Done!').*/
 
 initialInfo:-
     write('Player 1 is the X'), nl,
@@ -79,3 +83,38 @@ passingTheTurn(Player, NewPlayer):-
 
 changePlayer(2, 1).
 changePlayer(1, 2).
+
+gameOver(Board, Winner):-
+    endGame(Board, 1, 1, 1, 0, 0, 0, Winner),
+    ((Winner > 0, Winner < 3) ->
+        (write('Player '),
+        write(Winner),
+        write(' won the game!'));
+    /*else*/
+        (write('Changing Player'), nl)).
+    /*TODO stuff to the finish menu*/
+
+endGame(Board, BoardNumber, Row, Column, P1No, P2No, Counter, Winner):-
+    (BoardNumber > 4 -> 
+        Winner is 0;
+        /*else*/
+        (getPiece(BoardNumber, Board, Row, Column, Piece),
+        Cnt is Counter + 1,
+        (Piece is 1 -> 
+            (P1Number is P1No + 1, P2Number is P2No);
+        Piece is 2 -> 
+            (P2Number is P2No + 1, P1Number is P1No);
+        /*else*/
+            (P1Number is P1No, P2Number is P2No)),
+        (Column is 4 -> 
+            (Line is Row + 1, Col is 1);
+        /*else*/
+            (Line is Row, Col is Column + 1)),
+        ((Cnt is 16, P1Number is 0) -> 
+            Winner is 2;
+        (Cnt is 16, P2Number is 0) -> 
+            Winner is 1;
+        (P1Number > 0, P2Number > 0) -> 
+            (BN is BoardNumber + 1, endGame(Board, BN, 1, 1, 0, 0, 0, Winner));
+        /*else*/
+            endGame(Board, BoardNumber, Line, Col, P1Number, P2Number, Cnt, Winner)))).

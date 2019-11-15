@@ -145,18 +145,23 @@ setRow(Piece, [Line|Tail], Row, Col, [Line|NewTail]):-
     setRow(Piece, Tail, NewRow, Col, NewTail).
 
 /*Choosing the cell to change*/
-setCol(Piece, [_|Tail], 1, [Piece|Tail]).
+setCol(Piece, [Cell|Tail], 1, [Piece|Tail]):-
+    player_piece(Piece, Cell).
 
 setCol(Piece, [Cell|Tail], Col, [Cell|NewTail]):-
     Column is Col-1,
     setCol(Piece, Tail, Column, NewTail).
 
+player_piece(1,0).
+player_piece(2,0).
+player_piece(0,0).
+player_piece(0,1).
+player_piece(0,2).
+
 getPiece(BoardNumber, Board, Row, Column, Piece):-
     getBoard(BoardNumber, Board, SelectedBoard),
     nth1(Row, SelectedBoard, Line),
-    nth1(Column, Line, Piece),
-    write('Piece: '),
-    write(Piece).
+    nth1(Column, Line, Piece).
 
 getBoard(BoardNumber, Board, SelectedBoard):-
     getBranch(BoardNumber, Board, Branch),

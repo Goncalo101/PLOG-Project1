@@ -24,12 +24,23 @@ passiveMove(Player, Board):-
     write('Passive move'), nl,
     getBoardNumber(BoardNo),
     getOriginCoordinates(OLine, OColumn),
+
+    /* repeat until the piece is in a valid position */
+    repeat, 
     getDestinationCoordinates(DLine, DColumn),
+    getPiece(BoardNo, Board, Row, Column, Piece),
+    check_piece(Player, Piece),
+
     setPiece(Player, BoardNo, Board, DLine, DColumn, Board2),
     setPiece(0, BoardNo, Board2, OLine, OColumn, FollowingBoard),
     displayGame(FollowingBoard, Player), nl,
     aggressivePlayTactic(OLine, OColumn, DLine, DColumn, LineDif, ColDif), nl,
     aggressiveMove(Player, FollowingBoard, BoardNo, LineDif, ColDif).
+
+check_piece(_, 0).
+check_piece(1, 1) :-
+    write('Illegal move: one of your pieces is already in that position'),
+    fail.
 
 aggressiveMove(Player, Board, PrevBoardNo, DeltaLine, DeltaColumn) :-
     write('aggressive move'), nl,

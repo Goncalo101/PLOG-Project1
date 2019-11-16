@@ -4,25 +4,22 @@
 play:-
     initialMenuHandler.
 
-start:-
-    start(Board, 1),
-    passiveMove(1, Board).
-
-/* Create a Move
-start:-
-    start(Board, 1),
-    initialInfo,
-    passiveMove(1, Board),
-    write('Done!').*/
-
 initialInfo:-
     write('Player 1 is the X'), nl,
     write('Player 2 is the O'), nl, nl,
     write('Player with X starts!'), nl, nl.
 
-move(Move, Board, NewBoard) :-
-    passiveMove(Player, Board),
-    aggressiveMove(Player, Board, PrevBoardNo, DeltaLine, DeltaColumn).
+start(Move):-
+    clearConsole,
+    start(Board, 1),
+    initialInfo,
+    move(Move, Board, NewBoard).
+
+move(Move, Board, NewBoard):-
+    Move is 1 -> pvp.
+
+pvp:-
+    passiveMove(1, Board).
 
 passiveMove(Player, Board):-
     write('Passive move'), nl,
@@ -196,9 +193,8 @@ champion(Winner):-
     write('Player '),
     write(Winner),
     write(' won the game!'),
-    get_code(_),
+    getAnyKey(Key),
     endMenuHandler.
-    /*TODO stuff to the finish menu*/
 
 champion(Winner):-
     (Winner < 1;

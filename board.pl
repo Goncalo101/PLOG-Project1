@@ -9,7 +9,7 @@ hsep :- write('+---+---+---+---+  +---+---+---+---+'), nl.
 initBoard(Board) :-
     append([[
             [
-                [[2,2,2,2], [0,0,0,0], [0,1,0,0], [1,0,1,1]], 
+                [[2,2,2,2], [0,0,0,0], [0,1,1,0], [1,0,1,0]], 
                 [[2,2,2,2], [0,0,0,0], [0,0,0,0], [1,1,1,1]]
             ],
             [
@@ -113,18 +113,18 @@ displayGame(Board, Player) :-
 
 /*Functions to move a piece from oldPlace to newPlace*/
 /*Set New Coordinates of a Piece*/
-setPiece(Piece, BoardNo, PrevBoard, NewRow, NewCol, NextBoard):-
+setPiece(Piece, BoardNo, Board, NewRow, NewCol, NextBoard):-
     (NewRow is 0;
     NewRow is 5),
     write('You took a piece out!'), nl.
 
-setPiece(Piece, BoardNo, PrevBoard, NewRow, NewCol, NextBoard):-
+setPiece(Piece, BoardNo, Board, NewRow, NewCol, NextBoard):-
     (NewCol is 0;
     NewCol is 5),
     write('You took a piece out!'), nl.
 
-setPiece(Piece, BoardNo, PrevBoard, NewRow, NewCol, NextBoard):-
-    setBranch(Piece, BoardNo, PrevBoard, NewRow, NewCol, NextBoard).
+setPiece(Piece, BoardNo, Board, NewRow, NewCol, NextBoard):-
+    setBranch(Piece, BoardNo, Board, NewRow, NewCol, NextBoard).
 
 /*Choosing the branch of matrices to use*/
 setBranch(Piece, BoardNo, [Head|[Head2|Tail]], NewRow, NewCol, [Head|[NewHead2|Tail]]):-
@@ -156,17 +156,19 @@ setRow(Piece, [Line|Tail], Row, Col, [Line|NewTail]):-
 
 /*Choosing the cell to change*/
 setCol(Piece, [Cell|Tail], 1, [Piece|Tail]):-
-    player_piece(Piece, Cell).
+    playerPiece(Piece, Cell).
 
 setCol(Piece, [Cell|Tail], Col, [Cell|NewTail]):-
     Column is Col-1,
     setCol(Piece, Tail, Column, NewTail).
 
-player_piece(1,0).
-player_piece(2,0).
-player_piece(0,0).
-player_piece(0,1).
-player_piece(0,2).
+playerPiece(1,0).
+playerPiece(2,0).
+playerPiece(0,0).
+playerPiece(0,1).
+playerPiece(0,2).
+playerPiece(1,2).
+playerPiece(2,1).
 
 /*Get the piece from a certain cell to check valid moves*/
 getPiece(BoardNumber, Board, Row, Column, Piece):-

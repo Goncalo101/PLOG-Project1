@@ -4,12 +4,17 @@
 play:-
     initialMenuHandler.
 
-/* Create a Move*/
+start:-
+    start(Board, 1),
+    possiblePassiveMove(1, BoardNo, Board, OLine, OColumn, DLine, DColumn, DeltaLine, DeltaColumn, IntermediateLine, 
+             IntermediateColumn, BehindLine, BehindColumn, Piece, Piece2, Piece3, Piece4).
+
+/* Create a Move
 start:-
     start(Board, 1),
     initialInfo,
     passiveMove(1, Board),
-    write('Done!').
+    write('Done!').*/
 
 initialInfo:-
     write('Player 1 is the X'), nl,
@@ -22,26 +27,10 @@ move(Move, Board, NewBoard) :-
 
 passiveMove(Player, Board):-
     write('Passive move'), nl,
-    getBoardNumber(BoardNo),
-    getOriginCoordinates(OLine, OColumn),
-
-    /* repeat until the piece is in a valid position */
-    repeat, 
-    getDestinationCoordinates(DLine, DColumn),
-    getPiece(BoardNo, Board, DLine, DColumn, Piece),
-    check_piece(Player, Piece),
-
-    Piece == -1 -> (
-        (DeltaLine is DLine-OLine,
-        DeltaColumn is DColumn-OColumn,
-        NewLine is OLine+DeltaLine+1,
-        NewColumn is OColumn+DeltaColumn+1,
-        opposite_player(Player, Opposite),
-        getPiece(BoardNo, Board, NewLine, NewColumn, Adj),
-        check_piece(Opposite, Adj),
-        setPiece(Opposite, BoardNo, Board, NewLine, NewColumn, Board2)) ;
-        true
-    ),
+    possibleMove(Player, BoardNo, Board, OLine, OColumn, DLine, DColumn, DeltaLine, DeltaColumn, IntermediateLine, 
+             IntermediateColumn, BehindLine, BehindColumn, Piece, Piece2, Piece3, Piece4),
+    /*TODO: A refazer daqui para baixo! */
+    setPiece(Opposite, BoardNo, Board, NewLine, NewColumn, Board2),
 
     setPiece(Player, BoardNo, Board, DLine, DColumn, Board2),
     setPiece(0, BoardNo, Board2, OLine, OColumn, FollowingBoard),
@@ -52,19 +41,8 @@ passiveMove(Player, Board):-
 opposite_player(1, 2).
 opposite_player(2, 1).
 
-check_piece(_, 0).
-check_piece(Player, Piece) :-
-    Player == Piece,
-    write('Illegal move: one of your pieces is already in that position'),
-    fail.
-
-check_piece(Player, Piece) :-
-    Piece \= Player,
-    Piece is -1.
-
 aggressiveMove(Player, Board, PrevBoardNo, DeltaLine, DeltaColumn) :-
     write('aggressive move'), nl,
-    /* Using not because the function dont return after insert a correct board*/
     aggressiveBoardPossibility(PrevBoardNo, NewBoardNo),
     getOriginCoordinates(OLine, OColumn), nl,
     calculateAgressivePlay(OLine, OColumn, DLine, DColumn, DeltaLine, DeltaColumn),
@@ -75,6 +53,95 @@ aggressiveMove(Player, Board, PrevBoardNo, DeltaLine, DeltaColumn) :-
     passingTheTurn(Player, NewPlayer),
     displayGame(FollowingBoard, NewPlayer), nl,
     passiveMove(NewPlayer, FollowingBoard).
+
+possiblePassiveMove(Player, BoardNo, Board, OLine, OColumn, DLine, DColumn, DeltaLine, DeltaColumn, IntermediateLine, 
+             IntermediateColumn, BehindLine, BehindColumn, Piece, Piece2, Piece3, Piece4):-
+    repeat,
+    getBoardNumber(BoardNo),
+    calculateDeltas(OLine, OColumn, DLine, DColumn, DeltaLine, DeltaColumn),
+    calculateIntermediatePiece(DeltaLine, DeltaColumn, IntermediateLine, IntermediateColumn),
+    calculateBehindPiece(DLine, DColumn, DeltaLine, DeltaColumn, BehindLine, BehindColumn),
+    getPiece(BoardNo, Board, OLine, OColumn, Piece1),
+    getPiece(BoardNo, Board, DLine, DColumn, Piece2),
+    getIntermediatePiece(BoardNo, Board, OLine, OColumn, IntermediateLine, IntermediateColumn, Piece3),
+    getBehindPiece(BoardNo, Board, BehindLine, BehindColumn, Piece4),
+    Piece1 is Player,
+    Piece2 is 0,
+    Piece3 < 1,
+    Piece4 < 1,
+    write('Possible Passive Move!'), nl.
+
+possibleAgressiveMove(Player, BoardNo, Board, OLine, OColumn, DLine, DColumn, DeltaLine, DeltaColumn, IntermediateLine, 
+             IntermediateColumn, BehindLine, BehindColumn, Piece, Piece2, Piece3, Piece4):-
+    repeat,
+    getBoardNumber(BoardNo),
+    calculateDeltas(OLine, OColumn, DLine, DColumn, DeltaLine, DeltaColumn),
+    calculateIntermediatePiece(DeltaLine, DeltaColumn, IntermediateLine, IntermediateColumn),
+    calculateBehindPiece(DLine, DColumn, DeltaLine, DeltaColumn, BehindLine, BehindColumn),
+    getPiece(BoardNo, Board, OLine, OColumn, Piece1),
+    getPiece(BoardNo, Board, DLine, DColumn, Piece2),
+    getIntermediatePiece(BoardNo, Board, OLine, OColumn, IntermediateLine, IntermediateColumn, Piece3),
+    getBehindPiece(BoardNo, Board, BehindLine, BehindColumn, Piece4),
+    Piece1 is Player,
+    Piece2 =\= Player,
+    Piece3 < 1,
+    Piece4 < 1,
+    write('Possible Passive Move!'), nl.
+
+getIntermediatePiece(BoardNo, Board, OLine, OColumn, IntermediateLine, IntermediateColumn, Piece):-
+    (IntermediateLine =\= 0;
+     IntermediateColumn =\= 0),
+    IL is OLine + IntermediateLine,
+    IC is OColumn + IntermediateColumn,
+    getPiece(BoardNo, Board, IL, IC, Piece).
+
+getIntermediatePiece(BoardNo, Board, OLine, OColumn, IntermediateLine, IntermediateColumn, Piece):-
+    IntermediateLine is 0,
+    IntermediateColumn is 0,
+    Piece is -1.
+
+getBehindPiece(BoardNo, Board, BehindLine, BehindColumn, Piece):-
+    ((BehindLine < 1;
+      BehindLine > 4);
+     (BehindColumn < 1;
+      BehindColumn > 4)),
+    Piece is -1.
+
+getBehindPiece(BoardNo, Board, BehindLine, BehindColumn, Piece):-
+    getPiece(BoardNo, Board, BehindLine, BehindColumn, Piece).
+
+calculateBehindPiece(DLine, DColumn, DeltaLine, DeltaColumn, BehindLine, BehindColumn):-
+    calculateBehindCoord(DLine, DeltaLine, BehindLine),
+    calculateBehindCoord(DColumn, DeltaColumn, BehindColumn).
+
+calculateBehindCoord(Destination, Delta, Behind):-
+    Delta > 0,
+    Behind is Destination + 1.
+
+calculateBehindCoord(Destination, Delta, Behind):-
+    Delta < 0,
+    Behind is Destination - 1.
+
+calculateBehindCoord(Destination, Delta, Behind):-
+    Delta is 0,
+    Behind is Destination.
+
+calculateIntermediatePiece(DeltaLine, DeltaColumn, IntermediateLine, IntermediateColumn):-
+    deltaAnalysis(DeltaLine, IntermediateLine),
+    deltaAnalysis(DeltaColumn, IntermediateColumn).
+
+deltaAnalysis(Delta, Intermediate):-
+    Delta is 2,
+    Intermediate is 1.
+
+deltaAnalysis(Delta, Intermediate):-
+    Delta is -2,
+    Intermediate is -1.
+
+deltaAnalysis(Delta, Intermediate):-
+    Delta < 2,
+    Delta > -2,
+    Intermediate is 0.
 
 aggressivePlayTactic(OLine, OColumn, DLine, DColumn, LineDif, ColDif):-
     LineDif is DLine-OLine,
@@ -114,13 +181,20 @@ changePlayer(1, 2).
 
 gameOver(Board, Winner):-
     endGame(Board, 1, 1, 1, 0, 0, 0, Winner),
-    ((Winner > 0, Winner < 3) ->
-        (write('Player '),
-        write(Winner),
-        write(' won the game!'));
-    /*else*/
-        (write('Changing Player'), nl)).
+    champion(Winner).
+
+champion(Winner):-
+    Winner > 0, 
+    Winner < 3,
+    write('Player '),
+    write(Winner),
+    write(' won the game!').
     /*TODO stuff to the finish menu*/
+
+champion(Winner):-
+    (Winner < 1;
+    Winner > 2),
+    write('Changing Player'), nl.
 
 endGame(Board, BoardNumber, Row, Column, P1No, P2No, Counter, Winner):-
     (BoardNumber > 4 -> 

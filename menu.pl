@@ -30,19 +30,28 @@ startMenu:-
     write('|    (4) Exit                                         |'),nl,
     write('|_____________________________________________________|'),nl,nl.
 
+rules:-
+    clearConsole,
+    write(' _____________________________________________________ '),nl,
+    write('|                            2019, PLog Trademark Inc |'),nl,
+    write('|                                                     |'),nl,
+    write('|                     INFORMATION                     |'),nl,
+    write('|                                                     |'),nl,
+    write('|    Shobu is an abstract strategy game for two       |'),nl,
+    write('|    players. The game features 4 square boards       |'),nl,
+    write('|    with dimension of 4x4 and 16 pieces for each     |'),nl,
+    write('|    player.                                          |'),nl,
+    write('|                                                     |'),nl,
+    write('|                                                     |'),nl,
+    write('|                                                     |'),nl,
+    write('|_____________________________________________________|'),nl,nl.
+
                                  
 getAnyKey(Key):-
     get_code(Key), nl.
 
 clearConsole:-
     write('\e[H\e[2J'), nl.
-
-rules :-
-    clearConsole,
-    write('In this game you have to blablabla'), nl,
-    write('Press return to go back'),nl,
-    getAnyKey(Key),
-    setMenuState(Key).
 
 credits :-
     clearConsole,

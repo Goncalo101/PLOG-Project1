@@ -50,3 +50,66 @@ getOriginCoordinates(OLine, OColumn) :-
     write('Origin coordinates'), nl,
     getOriginLine(OLine),
     getOriginColumn(OColumn).
+
+calculateDeltas(OLine, OColumn, DLine, DColumn, DeltaLine, DeltaColumn):-
+    repeat,
+    getOriginCoordinates(OLine, OColumn),
+    getDestinationCoordinates(DLine, DColumn),
+    DeltaLine is DLine-OLine,
+    DeltaColumn is DColumn-OColumn, nl,
+    possibleDelta(DeltaLine, DeltaColumn).
+
+possibleDelta(0, 1).
+possibleDelta(0, 2).
+possibleDelta(0, -1).
+possibleDelta(0, -2).
+possibleDelta(1, 0).
+possibleDelta(2, 0).
+possibleDelta(-1, 0).
+possibleDelta(-2, 0).
+possibleDelta(1, 1).
+possibleDelta(2, 2).
+possibleDelta(-1, -1).
+possibleDelta(-2, -2).
+possibleDelta(-1, 1).
+possibleDelta(-2, 2).
+possibleDelta(1, -1).
+possibleDelta(2, -2).
+
+checkPiece(_, 0, Flag):-
+    Flag is 0.
+
+checkPiece(Player, Piece, Flag) :-
+    Player == Piece,
+    Flag is -1.
+    write('Illegal move: one of your pieces is already in that position'),
+    fail.
+
+checkPiece(Player, Piece, Flag) :-
+    Piece \= Player,
+    Flag is 1.
+
+checkingDeltas(DeltaLine, DeltaColumn, LineToCheck, ColToCheck):-
+    DeltaLine == DeltaColumn,
+    compare(DeltaLine, LineToCheck),
+    ColToCheck is LineToCheck.
+
+checkingDeltas(DeltaLine, DeltaColumn, LineToCheck, ColToCheck):-
+    DeltaLine is 0,
+    compare(DeltaColumn, ColToCheck),
+    LineToCheck is 0.
+
+checkingDeltas(DeltaLine, DeltaColumn, LineToCheck, ColToCheck):-
+    DeltaColumn is 0,
+    compare(DeltaLine, LineToCheck),
+    ColToCheck is 0.
+
+compare(Delta, Check):-
+    (Delta is 1;
+    Delta is 2),
+    Check is 1.
+
+compare(Delta, Check):-
+    (Delta is -1;
+    Delta is -2),
+    Check is -1.

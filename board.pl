@@ -9,7 +9,7 @@ hsep :- write('+---+---+---+---+  +---+---+---+---+'), nl.
 initBoard(Board) :-
     append([[
             [
-                [[2,2,2,2], [0,0,0,0], [0,0,0,0], [1,1,1,1]], 
+                [[2,2,2,2], [0,0,0,0], [0,1,0,0], [1,0,1,1]], 
                 [[2,2,2,2], [0,0,0,0], [0,0,0,0], [1,1,1,1]]
             ],
             [
@@ -114,6 +114,16 @@ displayGame(Board, Player) :-
 /*Functions to move a piece from oldPlace to newPlace*/
 /*Set New Coordinates of a Piece*/
 setPiece(Piece, BoardNo, PrevBoard, NewRow, NewCol, NextBoard):-
+    (NewRow is 0;
+    NewRow is 5),
+    write('You took a piece out!'), nl.
+
+setPiece(Piece, BoardNo, PrevBoard, NewRow, NewCol, NextBoard):-
+    (NewCol is 0;
+    NewCol is 5),
+    write('You took a piece out!'), nl.
+
+setPiece(Piece, BoardNo, PrevBoard, NewRow, NewCol, NextBoard):-
     setBranch(Piece, BoardNo, PrevBoard, NewRow, NewCol, NextBoard).
 
 /*Choosing the branch of matrices to use*/
@@ -165,9 +175,6 @@ getPiece(BoardNumber, Board, Row, Column, Piece):-
     getBoard(BoardNumber, Board, SelectedBoard),
     nth1(Row, SelectedBoard, Line),
     nth1(Column, Line, Piece).
-    nth1(Column, Line, Piece),
-    write('Piece: '),
-    write(Piece), nl.
 
 getBoard(BoardNumber, Board, SelectedBoard):-
     getBranch(BoardNumber, Board, Branch),

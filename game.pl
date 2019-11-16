@@ -6,8 +6,7 @@ play:-
 
 start:-
     start(Board, 1),
-    possiblePassiveMove(1, BoardNo, Board, OLine, OColumn, DLine, DColumn, DeltaLine, DeltaColumn, IntermediateLine, 
-             IntermediateColumn, BehindLine, BehindColumn, Piece, Piece2, Piece3, Piece4).
+    passiveMove(1, Board).
 
 /* Create a Move
 start:-
@@ -27,11 +26,7 @@ move(Move, Board, NewBoard) :-
 
 passiveMove(Player, Board):-
     write('Passive move'), nl,
-    possibleMove(Player, BoardNo, Board, OLine, OColumn, DLine, DColumn, DeltaLine, DeltaColumn, IntermediateLine, 
-             IntermediateColumn, BehindLine, BehindColumn, Piece, Piece2, Piece3, Piece4),
-    /*TODO: A refazer daqui para baixo! */
-    setPiece(Opposite, BoardNo, Board, NewLine, NewColumn, Board2),
-
+    possiblePassiveMove(Player, BoardNo, Board, OLine, OColumn, DLine, DColumn),
     setPiece(Player, BoardNo, Board, DLine, DColumn, Board2),
     setPiece(0, BoardNo, Board2, OLine, OColumn, FollowingBoard),
     displayGame(FollowingBoard, Player), nl,
@@ -54,8 +49,7 @@ aggressiveMove(Player, Board, PrevBoardNo, DeltaLine, DeltaColumn) :-
     displayGame(FollowingBoard, NewPlayer), nl,
     passiveMove(NewPlayer, FollowingBoard).
 
-possiblePassiveMove(Player, BoardNo, Board, OLine, OColumn, DLine, DColumn, DeltaLine, DeltaColumn, IntermediateLine, 
-             IntermediateColumn, BehindLine, BehindColumn, Piece, Piece2, Piece3, Piece4):-
+possiblePassiveMove(Player, BoardNo, Board, OLine, OColumn, DLine, DColumn):-
     repeat,
     getBoardNumber(BoardNo),
     calculateDeltas(OLine, OColumn, DLine, DColumn, DeltaLine, DeltaColumn),

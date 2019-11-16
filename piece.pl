@@ -81,7 +81,7 @@ checkPiece(_, 0, Flag):-
 
 checkPiece(Player, Piece, Flag) :-
     Player == Piece,
-    Flag is -1.
+    Flag is -1,
     write('Illegal move: one of your pieces is already in that position'),
     fail.
 

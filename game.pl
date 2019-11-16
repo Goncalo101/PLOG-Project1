@@ -192,9 +192,12 @@ gameOver(Board, Winner):-
 champion(Winner):-
     Winner > 0, 
     Winner < 3,
+    nl,
     write('Player '),
     write(Winner),
-    write(' won the game!').
+    write(' won the game!'),
+    get_code(_),
+    endMenuHandler.
     /*TODO stuff to the finish menu*/
 
 champion(Winner):-

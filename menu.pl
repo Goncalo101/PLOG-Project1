@@ -30,6 +30,20 @@ startMenu:-
     write('|    (4) Exit                                         |'),nl,
     write('|_____________________________________________________|'),nl,nl.
 
+endMenu :-
+    clearConsole,
+    write(' _____________________________________________________ '),nl,
+    write('|                            2019, PLog Trademark Inc |'),nl,
+    write('|                                                     |'),nl,
+    write('|                        MENU                         |'),nl,
+    write('|                                                     |'),nl,
+    write('|    (1) Restart                                      |'),nl,
+    write('|                                                     |'),nl,
+    write('|    (2) Back to Main Menu                            |'),nl,
+    write('|                                                     |'),nl,
+    write('|    (3) Exit                                         |'),nl,
+    write('|_____________________________________________________|'),nl,nl.
+
 rules:-
     clearConsole,
     write(' _____________________________________________________ '),nl,
@@ -79,6 +93,15 @@ setGameState(52) :-
 setGameState(_) :-
     startMenuHandler.
 
+setEndState(49) :-
+    start.
+
+setEndState(50) :-
+    initialMenuHandler.
+
+setEndState(51) :-
+    halt.
+
 startMenuHandler :-
     startMenu,
     getAnyKey(Key),
@@ -89,3 +112,8 @@ initialMenuHandler :-
     getAnyKey(Key),
     Key > -1,
     startMenuHandler.
+
+endMenuHandler :-
+    endMenu,
+    getAnyKey(Key),
+    setEndState(Key).

@@ -60,15 +60,12 @@ possiblePassiveMove(Player, BoardNo, Board, OLine, OColumn, DLine, DColumn, Delt
     getBoardNumber(BoardNo),
     calculateDeltas(OLine, OColumn, DLine, DColumn, DeltaLine, DeltaColumn),
     calculateIntermediatePiece(DeltaLine, DeltaColumn, IntermediateLine, IntermediateColumn),
-    calculateBehindPiece(DLine, DColumn, DeltaLine, DeltaColumn, BehindLine, BehindColumn),
     getPiece(BoardNo, Board, OLine, OColumn, Piece1),
     getPiece(BoardNo, Board, DLine, DColumn, Piece2),
     getIntermediatePiece(BoardNo, Board, OLine, OColumn, IntermediateLine, IntermediateColumn, Piece3),
-    getBehindPiece(BoardNo, Board, BehindLine, BehindColumn, Piece4),
     Piece1 is Player,
     Piece2 is 0,
     Piece3 < 1,
-    Piece4 < 1,
     write('Possible Passive Move!'), nl.
 
 possibleAgressiveMove(Player, BoardNo, Board, OLine, OColumn, DLine, DColumn, DeltaLine, DeltaColumn, IntermediateLine, 

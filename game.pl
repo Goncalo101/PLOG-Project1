@@ -225,3 +225,21 @@ endGame(Board, BoardNumber, Row, Column, P1No, P2No, Counter, Winner):-
             (BN is BoardNumber + 1, endGame(Board, BN, 1, 1, 0, 0, 0, Winner));
         /*else*/
             endGame(Board, BoardNumber, Line, Col, P1Number, P2Number, Cnt, Winner)))).
+
+
+/*Starting CPU Work*/
+
+getAllPlayerPiecesPosition(Player, Board, Row, Column, ListOfPositions):-
+    findall([1, Row, Column], getPiece(1, Board, Row, Column, Player), List1),
+    write(List1), nl,
+    findall([2, Row, Column], getPiece(2, Board, Row, Column, Player), List2),
+    write(List2), nl,
+    findall([3, Row, Column], getPiece(3, Board, Row, Column, Player), List3),
+    write(List3), nl,
+    findall([4, Row, Column], getPiece(4, Board, Row, Column, Player), List4),
+    write(List4), nl,
+    append([List1], [List2], IntermediateList1),
+    append([List3], [List4], IntermediateList2),
+    append(IntermediateList1, IntermediateList2, ListOfPositions),
+    write(ListOfPositions).
+    

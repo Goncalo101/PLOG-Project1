@@ -4,22 +4,19 @@
 play:-
     initialMenuHandler.
 
+start:-
+    start(Board, 1),
+    initialInfo,
+    passiveMove(1, Board).
+
 initialInfo:-
     write('Player 1 is the X'), nl,
     write('Player 2 is the O'), nl, nl,
     write('Player with X starts!'), nl, nl.
 
-start(Move):-
-    clearConsole,
-    start(Board, 1),
-    initialInfo,
-    move(Move, Board, NewBoard).
-
-move(Move, Board, NewBoard):-
-    Move is 1 -> pvp.
-
-pvp:-
-    passiveMove(1, Board).
+move(Move, Board, NewBoard) :-
+    passiveMove(Player, Board),
+    aggressiveMove(Player, Board, PrevBoardNo, DeltaLine, DeltaColumn).
 
 passiveMove(Player, Board):-
     write('Passive move'), nl,

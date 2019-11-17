@@ -249,16 +249,25 @@ passiveMovesAvailable(Player, Board, [H1|[H2|[H3|[H4|T]]]], ListWithMoves):-
     getPossibleDestinyCoords(Player, H3, Board, NewList),
     getPossibleDestinyCoords(Player, H4, Board, NewList).
 
-getPossibleDestinyCoords(Player, [H1|[H2|[H3|T]]], Board, NewList):-
-    calculatePossiblePlay(Player, Board, H1, ArrayMove),
-    write(ArrayMove).
+getPossibleDestinyCoords(Player, [H1|[H2|[H3|[H4|T]]]], Board, NewList):-
+    usingAllMovePossibilities(Player, Board, H1, NovaLista),
+    usingAllMovePossibilities(Player, Board, H2, NovaLista),
+    usingAllMovePossibilities(Player, Board, H3, NovaLista),
+    usingAllMovePossibilities(Player, Board, H4, NovaLista).
+
+/*TODO
+    Adicionar mais movimentos possíveis sem ser -1, 0 e -2, 0
+    Fazer append para tudo numa lista*/
+usingAllMovePossibilities(Player, Board, Line, NovaLista):-
+    calculatePossiblePlay(Player, Board, Line, -1, 0, H1List),
+    calculatePossiblePlay(Player, Board, Line, -2, 0, H2List).
     
-calculatePossiblePlay(Player, Board, [H1|[H2|[H3|T]]], ArrayMove):-
+calculatePossiblePlay(Player, Board, [H1|[H2|[H3|T]]], NewRow, NewCol, ArrayMove):-
     findall([H1, H2, H3, DLine, DColumn], possibleAgressiveMove(Player, 1, H1, Board, H2, H3, DLine, DColumn, 
-                                                                       -1, 0, BehindLine, BehindColumn, 
+                                                                       NewRow, NewCol, BehindLine, BehindColumn, 
                                                                        Piece1, Piece2), List),
-    append(List, ArrayMove),            
-    write(List).
+    write(List), nl,
+    ArrayMove = List.
 
 teste:-
     initBoard(Board),

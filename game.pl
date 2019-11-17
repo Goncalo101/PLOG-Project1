@@ -262,16 +262,36 @@ getAllPlayerPiecesPosition(Player, Board, Row, Column, ListOfPositions):-
     append(IntermediateList1, IntermediateList2, ListOfPositions).
 
 passiveMovesAvailable(Player, Board, [H1|[H2|[H3|[H4|T]]]], ListWithMoves):-
-    getPossibleDestinationCoords(Player, H1, Board, NewList),
-    getPossibleDestinationCoords(Player, H2, Board, NewList),
-    getPossibleDestinationCoords(Player, H3, Board, NewList),
-    getPossibleDestinationCoords(Player, H4, Board, NewList).
+    getPossibleDestinationCoords(Player, H1, Board, NovaLista),
+    append(Temp1, NovaLista, Temp2),
+
+    getPossibleDestinationCoords(Player, H2, Board, NovaLista1),
+    append(Temp2, NovaLista1, Temp3),
+
+    getPossibleDestinationCoords(Player, H3, Board, NovaLista2),
+    append(Temp3, NovaLista2, Temp4),
+
+    getPossibleDestinationCoords(Player, H4, Board, NovaLista3),
+    append(Temp4, NovaLista3, Temp5),
+
+    ListWithMoves = Temp5.
+
 
 getPossibleDestinationCoords(Player, [H1|[H2|[H3|[H4|T]]]], Board, NewList):-
     usingAllMovePossibilities(Player, Board, H1, NovaLista),
-    usingAllMovePossibilities(Player, Board, H2, NovaLista),
-    usingAllMovePossibilities(Player, Board, H3, NovaLista),
-    usingAllMovePossibilities(Player, Board, H4, NovaLista).
+    append(Temp1, NovaLista, Temp2),
+
+    usingAllMovePossibilities(Player, Board, H2, NovaLista1),
+    append(Temp2, NovaLista1, Temp3),
+
+    usingAllMovePossibilities(Player, Board, H3, NovaLista2),
+    append(Temp3, NovaLista2, Temp4),
+
+    usingAllMovePossibilities(Player, Board, H4, NovaLista3),
+    append(Temp4, NovaList3, Temp5),
+    
+    NewList = Temp5.
+
 
 usingAllMovePossibilities(Player, Board, Line, NovaLista):-
     /* check move possibilities vertically */
@@ -299,7 +319,6 @@ usingAllMovePossibilities(Player, Board, Line, NovaLista):-
     /* append everything */
 
     append(H1List, H2List, Temp1),
-    write('cenas'),
     append(Temp1, H3List, Temp2),
     append(Temp2, H4List, Temp3),
     append(Temp3, H5List, Temp4),
@@ -313,10 +332,8 @@ usingAllMovePossibilities(Player, Board, Line, NovaLista):-
     append(Temp11, H13List, Temp12), 
     append(Temp12, H14List, Temp13), 
     append(Temp13, H15List, Temp14), 
-    write('list 3'),
-    append(Temp14, H16List, NovaLista),
-    write('coiso'),
-    write(NovaLista).
+    append(Temp14, H16List, Temp15),
+    NovaLista = Temp15.
 
 calculatePossiblePlay(Player, Board, [H1|[H2|[H3|T]]], NewRow, NewCol, ArrayMove):-
     findall([H1, H2, H3, DLine, DColumn], 
@@ -327,4 +344,5 @@ calculatePossiblePlay(Player, Board, [H1|[H2|[H3|T]]], NewRow, NewCol, ArrayMove
 teste:-
     initBoard(Board),
     getAllPlayerPiecesPosition(1, Board, Row, Column, ListOfPositions),
-    passiveMovesAvailable(1, Board, ListOfPositions, ListWithMoves).
+    passiveMovesAvailable(1, Board, ListOfPositions, ListWithMoves),
+    write(ListWithMoves).

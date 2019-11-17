@@ -344,9 +344,4 @@ calculatePossiblePlay(Player, Board, [H1|[H2|[H3|T]]], NewRow, NewCol, ArrayMove
 valid_moves(Player, Board, ListOfMoves) :-
     getAllPlayerPiecesPosition(Player, Board, Row, Column, ListOfPositions),
     passiveMovesAvailable(Player, Board, Row, COlumn, ListOfPositions).
-
-teste:-
-    initBoard(Board),
-    getAllPlayerPiecesPosition(1, Board, Row, Column, ListOfPositions),
-    passiveMovesAvailable(1, Board, ListOfPositions, ListWithMoves),
-    write(ListWithMoves).
+    

@@ -64,7 +64,7 @@ passiveMove(Move, Player, Board):-
     aggressivePlayTactic(OLine, OColumn, DLine, DColumn, LineDif, ColDif), nl,
     aggressiveMove(Move, Player, FollowingBoard, BoardNo, LineDif, ColDif).
 
-aggressiveMove(Player, Board, PrevBoardNo, DeltaLine, DeltaColumn) :-
+aggressiveMove(Move, Player, Board, PrevBoardNo, DeltaLine, DeltaColumn) :-
     write('Aggressive move'), nl,
     possibleAgressiveMove(Player, PrevBoardNo, NewBoardNo, Board, OLine, OColumn, DLine, DColumn, DeltaLine, DeltaColumn, 
                       BehindLine, BehindColumn, Piece1, Piece2),

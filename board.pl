@@ -114,14 +114,12 @@ displayGame(Board, Player) :-
 /*Functions to move a piece from oldPlace to newPlace*/
 /*Set New Coordinates of a Piece*/
 setPiece(Piece, BoardNo, Board, NewRow, NewCol, NextBoard):-
-    (NewRow is 0;
-    NewRow is 5),
-    write('You took a piece out!'), nl.
+    (NewRow < 1;
+    NewRow > 4).
 
 setPiece(Piece, BoardNo, Board, NewRow, NewCol, NextBoard):-
-    (NewCol is 0;
-    NewCol is 5),
-    write('You took a piece out!'), nl.
+    (NewCol < 1;
+    NewCol > 4).
 
 setPiece(Piece, BoardNo, Board, NewRow, NewCol, NextBoard):-
     setBranch(Piece, BoardNo, Board, NewRow, NewCol, NextBoard).

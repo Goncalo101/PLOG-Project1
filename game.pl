@@ -58,9 +58,9 @@ possiblePassiveMove(Player, BoardNo, Board, OLine, OColumn, DLine, DColumn):-
 
 possibleAgressiveMove(Player, PrevBoardNo, NewBoardNo, Board, OLine, OColumn, DLine, DColumn, DeltaLine, DeltaColumn, 
                       BehindLine, BehindColumn, Piece1, Piece2):-
-    repeat,
-    aggressiveBoardPossibility(PrevBoardNo, NewBoardNo),
-    getOriginCoordinates(OLine, OColumn),
+    /*repeat,
+    aggressiveBoardPossibility(PrevBoardNo, NewBoardNo),*/
+    /*getOriginCoordinates(OLine, OColumn),*/
     calculateAgressivePlay(OLine, OColumn, DLine, DColumn, DeltaLine, DeltaColumn),
     calculateIntermediatePiece(DeltaLine, DeltaColumn, IntermediateLine, IntermediateColumn),
     calculateBehindPiece(DLine, DColumn, DeltaLine, DeltaColumn, BehindLine, BehindColumn),
@@ -236,15 +236,33 @@ endGame(Board, BoardNumber, Row, Column, P1No, P2No, Counter, Winner):-
 
 getAllPlayerPiecesPosition(Player, Board, Row, Column, ListOfPositions):-
     findall([1, Row, Column], getPiece(1, Board, Row, Column, Player), List1),
-    write(List1), nl,
     findall([2, Row, Column], getPiece(2, Board, Row, Column, Player), List2),
-    write(List2), nl,
     findall([3, Row, Column], getPiece(3, Board, Row, Column, Player), List3),
-    write(List3), nl,
     findall([4, Row, Column], getPiece(4, Board, Row, Column, Player), List4),
-    write(List4), nl,
     append([List1], [List2], IntermediateList1),
     append([List3], [List4], IntermediateList2),
-    append(IntermediateList1, IntermediateList2, ListOfPositions),
-    write(ListOfPositions).
+    append(IntermediateList1, IntermediateList2, ListOfPositions).
+
+passiveMovesAvailable(Player, Board, [H1|[H2|[H3|[H4|T]]]], ListWithMoves):-
+    getPossibleDestinyCoords(Player, H1, Board, NewList),
+    getPossibleDestinyCoords(Player, H2, Board, NewList),
+    getPossibleDestinyCoords(Player, H3, Board, NewList),
+    getPossibleDestinyCoords(Player, H4, Board, NewList).
+
+getPossibleDestinyCoords(Player, [H1|[H2|[H3|T]]], Board, NewList):-
+    calculatePossiblePlay(Player, Board, H1, ArrayMove),
+    write(ArrayMove).
     
+calculatePossiblePlay(Player, Board, [H1|[H2|[H3|T]]], ArrayMove):-
+    findall([H1, H2, H3, DLine, DColumn], possibleAgressiveMove(Player, 1, H1, Board, H2, H3, DLine, DColumn, 
+                                                                       -1, 0, BehindLine, BehindColumn, 
+                                                                       Piece1, Piece2), List),
+    append(List, ArrayMove),            
+    write(List).
+
+teste:-
+    initBoard(Board),
+    getAllPlayerPiecesPosition(1, Board, Row, Column, ListOfPositions),
+    passiveMovesAvailable(1, Board, ListOfPositions, ListWithMoves).
+
+

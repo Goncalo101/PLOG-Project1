@@ -279,24 +279,29 @@ usingAllMovePossibilities(Player, Board, Line, NovaLista):-
     calculatePossiblePlay(Player, Board, Line, 2, 2, H13List),
     calculatePossiblePlay(Player, Board, Line, 2, -2, H14List),
     calculatePossiblePlay(Player, Board, Line, -2, 2, H15List),
-    calculatePossiblePlay(Player, Board, Line, -2, -2, H16List).
+    calculatePossiblePlay(Player, Board, Line, -2, -2, H16List),
 
     /* append everything */
-    append(H1List, H2List, NovaLista),
-    append(NovaLista, H3List, NovaLista),
-    append(NovaLista, H4List, NovaLista),
-    append(NovaLista, H5List, NovaLista),
-    append(NovaLista, H6List, NovaLista),
-    append(NovaLista, H7List, NovaLista),
-    append(NovaLista, H8List, NovaLista),
-    append(NovaLista, H9List, NovaLista),
-    append(NovaLista, H10List, NovaLista),
-    append(NovaLista, H11List, NovaLista), 
-    append(NovaLista, H12List, NovaLista), 
-    append(NovaLista, H13List, NovaLista), 
-    append(NovaLista, H14List, NovaLista), 
-    append(NovaLista, H15List, NovaLista), 
-    append(NovaLista, H16List, NovaLista).
+
+    append(H1List, H2List, Temp1),
+    write('cenas'),
+    append(Temp1, H3List, Temp2),
+    append(Temp2, H4List, Temp3),
+    append(Temp3, H5List, Temp4),
+    append(Temp4, H6List, Temp5),
+    append(Temp5, H7List, Temp6),
+    append(Temp6, H8List, Temp7),
+    append(Temp7, H9List, Temp8),
+    append(Temp8, H10List, Temp9),
+    append(Temp9, H11List, Temp10), 
+    append(Temp10, H12List, Temp11), 
+    append(Temp11, H13List, Temp12), 
+    append(Temp12, H14List, Temp13), 
+    append(Temp13, H15List, Temp14), 
+    write('list 3'),
+    append(Temp14, H16List, NovaLista),
+    write('coiso'),
+    write(NovaLista).
 
 calculatePossiblePlay(Player, Board, [H1|[H2|[H3|T]]], NewRow, NewCol, ArrayMove):-
     findall([H1, H2, H3, DLine, DColumn], 

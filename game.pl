@@ -26,6 +26,15 @@ move(Move, Board, NewBoard):-
 pvp(Board):-
     passiveMove(1, Board).
 
+pvc(Move) :-
+    start(Board),
+    valid_moves(2, Board, ListOfMoves),
+    length(ListOfMoves, Len),
+    random(1, Len, RandVal),
+    nth1(RandVal, ListOfMoves, Elem),
+
+    move(Elem, Board, NewBoard).
+
 passiveMove(Player, Board):-
     write('Passive move'), nl,
     possiblePassiveMove(Player, BoardNo, Board, OLine, OColumn, DLine, DColumn),
@@ -344,4 +353,3 @@ calculatePossiblePlay(Player, Board, [H1|[H2|[H3|T]]], NewRow, NewCol, ArrayMove
 valid_moves(Player, Board, ListOfMoves) :-
     getAllPlayerPiecesPosition(Player, Board, Row, Column, ListOfPositions),
     passiveMovesAvailable(Player, Board, Row, COlumn, ListOfPositions).
-    

@@ -16,9 +16,9 @@ start(Move):-
     move(Move, Board, NewBoard).
 
 move(Move, Board, NewBoard):-
-    Move is 1 -> pvp.
+    Move is 1 -> pvp(Board).
 
-pvp:-
+pvp(Board):-
     passiveMove(1, Board).
 
 passiveMove(Player, Board):-

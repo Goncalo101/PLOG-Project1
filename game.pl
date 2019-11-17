@@ -4,6 +4,11 @@
 play:-
     initialMenuHandler.
 
+start:-
+    start(Board, 1),
+    initialInfo,
+    passiveMove(1, Board).
+
 initialInfo:-
     write('Player 1 is the X'), nl,
     write('Player 2 is the O'), nl, nl,

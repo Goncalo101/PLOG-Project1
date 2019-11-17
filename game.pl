@@ -244,12 +244,12 @@ getAllPlayerPiecesPosition(Player, Board, Row, Column, ListOfPositions):-
     append(IntermediateList1, IntermediateList2, ListOfPositions).
 
 passiveMovesAvailable(Player, Board, [H1|[H2|[H3|[H4|T]]]], ListWithMoves):-
-    getPossibleDestinyCoords(Player, H1, Board, NewList),
-    getPossibleDestinyCoords(Player, H2, Board, NewList),
-    getPossibleDestinyCoords(Player, H3, Board, NewList),
-    getPossibleDestinyCoords(Player, H4, Board, NewList).
+    getPossibleDestinationCoords(Player, H1, Board, NewList),
+    getPossibleDestinationCoords(Player, H2, Board, NewList),
+    getPossibleDestinationCoords(Player, H3, Board, NewList),
+    getPossibleDestinationCoords(Player, H4, Board, NewList).
 
-getPossibleDestinyCoords(Player, [H1|[H2|[H3|[H4|T]]]], Board, NewList):-
+getPossibleDestinationCoords(Player, [H1|[H2|[H3|[H4|T]]]], Board, NewList):-
     usingAllMovePossibilities(Player, Board, H1, NovaLista),
     usingAllMovePossibilities(Player, Board, H2, NovaLista),
     usingAllMovePossibilities(Player, Board, H3, NovaLista),
@@ -259,13 +259,50 @@ getPossibleDestinyCoords(Player, [H1|[H2|[H3|[H4|T]]]], Board, NewList):-
     Adicionar mais movimentos possíveis sem ser -1, 0 e -2, 0
     Fazer append para tudo numa lista*/
 usingAllMovePossibilities(Player, Board, Line, NovaLista):-
+    /* check move possibilities vertically */
     calculatePossiblePlay(Player, Board, Line, -1, 0, H1List),
-    calculatePossiblePlay(Player, Board, Line, -2, 0, H2List).
-    
+    calculatePossiblePlay(Player, Board, Line, -2, 0, H2List), 
+    calculatePossiblePlay(Player, Board, Line, 1, 0, H3List),
+    calculatePossiblePlay(Player, Board, Line, 2, 0, H4List),
+
+    /* check move possibilities horizontally */
+    calculatePossiblePlay(Player, Board, Line, 0, -1, H5List),
+    calculatePossiblePlay(Player, Board, Line, 0, -2, H6List), 
+    calculatePossiblePlay(Player, Board, Line, 0, 1, H7List),
+    calculatePossiblePlay(Player, Board, Line, 0, 2, H8List),
+
+    /* check move possibilities diagonally */
+    calculatePossiblePlay(Player, Board, Line, 1, 1, H9List),
+    calculatePossiblePlay(Player, Board, Line, 1, -1, H10List),
+    calculatePossiblePlay(Player, Board, Line, -1, 1, H11List),
+    calculatePossiblePlay(Player, Board, Line, -1, -1, H12List),
+    calculatePossiblePlay(Player, Board, Line, 2, 2, H13List),
+    calculatePossiblePlay(Player, Board, Line, 2, -2, H14List),
+    calculatePossiblePlay(Player, Board, Line, -2, 2, H15List),
+    calculatePossiblePlay(Player, Board, Line, -2, -2, H16List).
+
+    /* append everything */
+    append(H1List, H2List, NovaLista),
+    append(NovaLista, H3List, NovaLista),
+    append(NovaLista, H4List, NovaLista),
+    append(NovaLista, H5List, NovaLista),
+    append(NovaLista, H6List, NovaLista),
+    append(NovaLista, H7List, NovaLista),
+    append(NovaLista, H8List, NovaLista),
+    append(NovaLista, H9List, NovaLista),
+    append(NovaLista, H10List, NovaLista),
+    append(NovaLista, H11List, NovaLista), 
+    append(NovaLista, H12List, NovaLista), 
+    append(NovaLista, H13List, NovaLista), 
+    append(NovaLista, H14List, NovaLista), 
+    append(NovaLista, H15List, NovaLista), 
+    append(NovaLista, H16List, NovaLista).
+
 calculatePossiblePlay(Player, Board, [H1|[H2|[H3|T]]], NewRow, NewCol, ArrayMove):-
-    findall([H1, H2, H3, DLine, DColumn], possibleAgressiveMove(Player, 1, H1, Board, H2, H3, DLine, DColumn, 
-                                                                       NewRow, NewCol, BehindLine, BehindColumn, 
-                                                                       Piece1, Piece2), List),
+    findall([H1, H2, H3, DLine, DColumn], 
+    possibleAgressiveMove(Player, 1, H1, Board, H2, H3, DLine, DColumn, 
+                          NewRow, NewCol, BehindLine, BehindColumn, 
+                          Piece1, Piece2), List),
     write(List), nl,
     ArrayMove = List.
 

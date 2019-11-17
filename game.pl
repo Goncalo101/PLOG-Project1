@@ -58,9 +58,9 @@ possiblePassiveMove(Player, BoardNo, Board, OLine, OColumn, DLine, DColumn):-
 
 possibleAgressiveMove(Player, PrevBoardNo, NewBoardNo, Board, OLine, OColumn, DLine, DColumn, DeltaLine, DeltaColumn, 
                       BehindLine, BehindColumn, Piece1, Piece2):-
-    /*repeat,
-    aggressiveBoardPossibility(PrevBoardNo, NewBoardNo),*/
-    /*getOriginCoordinates(OLine, OColumn),*/
+    repeat,
+    aggressiveBoardPossibility(PrevBoardNo, NewBoardNo),
+    getOriginCoordinates(OLine, OColumn),
     calculateAgressivePlay(OLine, OColumn, DLine, DColumn, DeltaLine, DeltaColumn),
     calculateIntermediatePiece(DeltaLine, DeltaColumn, IntermediateLine, IntermediateColumn),
     calculateBehindPiece(DLine, DColumn, DeltaLine, DeltaColumn, BehindLine, BehindColumn),
@@ -75,6 +75,24 @@ possibleAgressiveMove(Player, PrevBoardNo, NewBoardNo, Board, OLine, OColumn, DL
       Piece2 =\= Player,
       Piece4 < 1)),
     write('Possible Aggressive Move!'), nl.
+
+/*Function to calculate usable play for the cpu*/
+
+possibleMove(Player, PrevBoardNo, NewBoardNo, Board, OLine, OColumn, DLine, DColumn, DeltaLine, DeltaColumn, 
+                      BehindLine, BehindColumn, Piece1, Piece2):-
+    calculateAgressivePlay(OLine, OColumn, DLine, DColumn, DeltaLine, DeltaColumn),
+    calculateIntermediatePiece(DeltaLine, DeltaColumn, IntermediateLine, IntermediateColumn),
+    calculateBehindPiece(DLine, DColumn, DeltaLine, DeltaColumn, BehindLine, BehindColumn),
+    getPiece(NewBoardNo, Board, OLine, OColumn, Piece1),
+    getPiece(NewBoardNo, Board, DLine, DColumn, Piece2),
+    getIntermediatePiece(NewBoardNo, Board, OLine, OColumn, IntermediateLine, IntermediateColumn, Piece3),
+    getBehindPiece(NewBoardNo, Board, BehindLine, BehindColumn, Piece4),
+    Piece1 is Player,
+    Piece3 < 1,
+    (Piece2 is 0;
+     (Piece2 > 0,
+      Piece2 =\= Player,
+      Piece4 < 1)).
 
 setBehindPiece(Player, Piece, BoardNo, Board, BehindLine, BehindColumn, NewBoard):-
     Piece > 0,
@@ -255,13 +273,10 @@ getPossibleDestinationCoords(Player, [H1|[H2|[H3|[H4|T]]]], Board, NewList):-
     usingAllMovePossibilities(Player, Board, H3, NovaLista),
     usingAllMovePossibilities(Player, Board, H4, NovaLista).
 
-/*TODO
-    Adicionar mais movimentos possíveis sem ser -1, 0 e -2, 0
-    Fazer append para tudo numa lista*/
 usingAllMovePossibilities(Player, Board, Line, NovaLista):-
     /* check move possibilities vertically */
     calculatePossiblePlay(Player, Board, Line, -1, 0, H1List),
-    calculatePossiblePlay(Player, Board, Line, -2, 0, H2List), 
+    calculatePossiblePlay(Player, Board, Line, -2, 0, H2List),
     calculatePossiblePlay(Player, Board, Line, 1, 0, H3List),
     calculatePossiblePlay(Player, Board, Line, 2, 0, H4List),
 
@@ -305,15 +320,11 @@ usingAllMovePossibilities(Player, Board, Line, NovaLista):-
 
 calculatePossiblePlay(Player, Board, [H1|[H2|[H3|T]]], NewRow, NewCol, ArrayMove):-
     findall([H1, H2, H3, DLine, DColumn], 
-    possibleAgressiveMove(Player, 1, H1, Board, H2, H3, DLine, DColumn, 
-                          NewRow, NewCol, BehindLine, BehindColumn, 
-                          Piece1, Piece2), List),
-    write(List), nl,
+                possibleMove(Player, 1, H1, Board, H2, H3, DLine, DColumn, NewRow, NewCol, BehindLine, BehindColumn, Piece1, Piece2), 
+                List),
     ArrayMove = List.
 
 teste:-
     initBoard(Board),
     getAllPlayerPiecesPosition(1, Board, Row, Column, ListOfPositions),
     passiveMovesAvailable(1, Board, ListOfPositions, ListWithMoves).
-
-

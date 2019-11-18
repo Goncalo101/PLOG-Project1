@@ -7,19 +7,13 @@ play:-
 start(Num):-
     start(Board, 1),
     initialInfo,
-    Num is 1 -> passiveMove(1, 1, Board),
-    Num is 2 -> passiveMove(2, 1, Board).
+    (Num is 1 -> passiveMove(1, 1, Board);
+    Num is 2 -> passiveMove(2, 1, Board)).
 
 initialInfo:-
     write('Player 1 is the X'), nl,
     write('Player 2 is the O'), nl, nl,
     write('Player with X starts!'), nl, nl.
-
-start(Move):-
-    clearConsole,
-    start(Board, 1),
-    initialInfo,
-    move(Move, Board, NewBoard).
 
 move(Move, Board, NewBoard):-
     Move is 1 -> pvp(Board).
@@ -33,7 +27,8 @@ pvc(Move, Board) :-
 cpuPassiveMove(Move, Player, Board):-
     valid_moves(2, Board, ListOfMoves),
     length(ListOfMoves, Len),
-    random(1, Len, RandVal),
+    Length = Len + 1,
+    random(1, Length, RandVal),
     nth1(RandVal, ListOfMoves, Elem),
     breakingElement(Elem, Board, OLine, OCol, DLine, DCol),
     DeltaLine is DLine-OLine,
@@ -51,8 +46,39 @@ cpuPassiveMove(Move, Player, Board):-
     setPiece(0, BoardNo, Board2, OLine, OColumn, FollowingBoard),
     displayGame(FollowingBoard, Player), nl,
     getAnyKey(Key),
-    Key > -1
-    .
+    Key > -1,
+    cpuAggressiveMove(2, Player, Board, PrevBoardNo, DeltaLine, DeltaColumn).
+
+cpuAggressiveMove(Move, Player, Board, PrevBoardNo, DeltaLine, DeltaColumn):-
+    write('Aggressive move'), nl,
+    repeat,
+    random(1, 5, NewBoardNo),
+    aggressiveBoardPossibility(PrevBoardNo, NewBoardNo),
+    random(1, 5, OLine),
+    random(1, 5, OColumn),
+    calculateAgressivePlay(OLine, OColumn, DLine, DColumn, DeltaLine, DeltaColumn),
+    calculateIntermediatePiece(DeltaLine, DeltaColumn, IntermediateLine, IntermediateColumn),
+    calculateBehindPiece(DLine, DColumn, DeltaLine, DeltaColumn, BehindLine, BehindColumn),
+    getPiece(NewBoardNo, Board, OLine, OColumn, Piece1),
+    getPiece(NewBoardNo, Board, DLine, DColumn, Piece2),
+    getIntermediatePiece(NewBoardNo, Board, OLine, OColumn, IntermediateLine, IntermediateColumn, Piece3),
+    getBehindPiece(NewBoardNo, Board, BehindLine, BehindColumn, Piece4),
+    Piece1 is Player,
+    Piece3 < 1,
+    (Piece2 is 0;
+     (Piece2 > 0,
+      Piece2 =\= Player,
+      Piece4 < 1)),
+    write('Possible Aggressive Move!'), nl,
+    setPiece(0, NewBoardNo, Board, OLine, OColumn, Board2),
+    setPiece(Player, NewBoardNo, Board2, DLine, DColumn, Board3),
+    setBehindPiece(Player, Piece2, NewBoardNo, Board3, BehindLine, BehindColumn, NewBoard),
+    gameOver(NewBoard, Winner),
+    passingTheTurn(Player, NewPlayer),
+    displayGame(NewBoard, NewPlayer), nl,
+    write(Move), nl,
+    passiveMove(2, NewPlayer, NewBoard).
+
 
 breakingElement([H1|[H2|[H3|[H4|[H5|T]]]]], Board, OLine, OCol, DLine, DCol):-
     Board = H1,
@@ -81,6 +107,7 @@ aggressiveMove(Move, Player, Board, PrevBoardNo, DeltaLine, DeltaColumn) :-
     gameOver(NewBoard, Winner),
     passingTheTurn(Player, NewPlayer),
     displayGame(NewBoard, NewPlayer), nl,
+    write(Move), nl,
     (Move is 1 ->passiveMove(1, NewPlayer, NewBoard);
     Move is 2 ->cpuPassiveMove(2, NewPlayer, NewBoard)).
 

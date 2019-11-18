@@ -46,7 +46,10 @@ cpuPassiveMove(Move, Player, Board):-
     Piece1 is Player,
     Piece2 is 0,
     Piece3 < 1,
-    write('Possible Passive Move!'), nl.
+    write('Possible Passive Move!'), nl,
+    setPiece(Player, BoardNo, Board, DLine, DColumn, Board2),
+    setPiece(0, BoardNo, Board2, OLine, OColumn, FollowingBoard),
+    displayGame(FollowingBoard, Player), nl.
 
 breakingElement([H1|[H2|[H3|[H4|[H5|T]]]]], Board, OLine, OCol, DLine, DCol):-
     Board = H1,
@@ -74,8 +77,8 @@ aggressiveMove(Move, Player, Board, PrevBoardNo, DeltaLine, DeltaColumn) :-
     gameOver(NewBoard, Winner),
     passingTheTurn(Player, NewPlayer),
     displayGame(NewBoard, NewPlayer), nl,
-    Move is 1 ->passiveMove(1, NewPlayer, NewBoard);
-    Move is 2 ->cpuPassiveMove(2, NewPlayer, NewBoard).
+    (Move is 1 ->passiveMove(1, NewPlayer, NewBoard);
+    Move is 2 ->cpuPassiveMove(2, NewPlayer, NewBoard)).
 
 possiblePassiveMove(Player, BoardNo, Board, OLine, OColumn, DLine, DColumn):-
     repeat,

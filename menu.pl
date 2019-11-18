@@ -136,8 +136,8 @@ playMenuHandler:-
     playMenu,
     getAnyKey(Key),
     read_line(_),
-    (Key is 49 -> start;
-     Key is 50 -> pvc(Move);
+    (Key is 49 -> start(1);
+     Key is 50 -> start(2);
      Key is 51 -> cvp;
      Key is 52 -> cvc), nl.
 

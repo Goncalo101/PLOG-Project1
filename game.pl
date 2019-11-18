@@ -49,7 +49,10 @@ cpuPassiveMove(Move, Player, Board):-
     write('Possible Passive Move!'), nl,
     setPiece(Player, BoardNo, Board, DLine, DColumn, Board2),
     setPiece(0, BoardNo, Board2, OLine, OColumn, FollowingBoard),
-    displayGame(FollowingBoard, Player), nl.
+    displayGame(FollowingBoard, Player), nl,
+    getAnyKey(Key),
+    Key > -1
+    .
 
 breakingElement([H1|[H2|[H3|[H4|[H5|T]]]]], Board, OLine, OCol, DLine, DCol):-
     Board = H1,
@@ -60,6 +63,7 @@ breakingElement([H1|[H2|[H3|[H4|[H5|T]]]]], Board, OLine, OCol, DLine, DCol):-
 
 passiveMove(Move, Player, Board):-
     write('Passive move'), nl,
+    write(Move), nl,
     possiblePassiveMove(Player, BoardNo, Board, OLine, OColumn, DLine, DColumn),
     setPiece(Player, BoardNo, Board, DLine, DColumn, Board2),
     setPiece(0, BoardNo, Board2, OLine, OColumn, FollowingBoard),
